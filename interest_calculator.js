@@ -1,11 +1,12 @@
-
-const button = document.getElementById("calculate-button")
+const button = document.getElementById("calculate-button");
 button.addEventListener("click", calculate);
 const ctx = document.getElementById('myChart');
 let currentChart;
+const canvas = document.getElementById('myChart');
+canvas.setAttribute('aria-label', 'Bar chart showing savings with and without interest');
+canvas.innerHTML = 'Your browser does not support the HTML5 canvas element.';
 
 function calculate() {
-    // Formula: A= P(1 + r/n)^nt + PMT((1 + r/n)^nt - 1)/(r/n)
     let P = Number(document.getElementById("starting-balance").value);
     let r = Number(document.getElementById("interest-rate").value) / 100;
     let n = Number(document.getElementById("compound").value);
@@ -14,12 +15,11 @@ function calculate() {
 
     let temp = Math.pow((1 + r / n), n * t);
     let result1 = P * temp;
-    let result2 = PMT * (temp - 1) / (r / n)
+    let result2 = PMT * (temp - 1) / (r / n);
     let result = (result1 + result2);
     document.getElementById("result").innerText = `£${Number(result.toFixed(2)).toLocaleString('en-US')}`;
 
-
-    if (currentChart != null){
+    if (currentChart != null) {
         currentChart.destroy();
     }
 
@@ -30,7 +30,9 @@ function calculate() {
             datasets: [{
                 label: 'Savings',
                 data: [P + PMT * n * t, result],
-                borderWidth: 1
+                borderWidth: 1,
+                borderColor: '#113f67',
+                backgroundColor: '#38598b'
             }]
         },
         options: {
@@ -42,3 +44,5 @@ function calculate() {
         }
     });
 }
+
+
