@@ -15,8 +15,8 @@ function calculate() {
     let temp = Math.pow((1 + r / n), n * t);
     let result1 = P * temp;
     let result2 = PMT * (temp - 1) / (r / n)
-    let result = (result1 + result2).toFixed(2);
-    document.getElementById("result").innerText = result;
+    let result = (result1 + result2);
+    document.getElementById("result").innerText = `£${Number(result.toFixed(2)).toLocaleString('en-US')}`;
 
 
     if (currentChart != null){
