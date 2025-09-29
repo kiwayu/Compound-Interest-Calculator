@@ -1,66 +1,356 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-    <title> Interest Rate Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Advanced compound interest calculator with inflation adjustment, goal planning, and interactive visualizations">
+    <meta name="keywords" content="compound interest, calculator, investment, savings, financial planning">
+    <title>Advanced Compound Interest Calculator</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <!--Formula: A= P(1 + r/n)^nt + PMT((1 + r/n)^nt - 1)/(r/n)-->
-    <div id="interest-calculator">
-        <h2>💴 Compound Interest Calculator</h2>
-        <p>
-            Formula: A= P(1 + r/n)<sup>nt</sup> + PMT((1 + r/n)<sup>nt</sup> - 1)/(r/n)
-        </p>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-chart-line"></i> Advanced Compound Interest Calculator</h1>
+            <p class="subtitle">Plan your financial future with precision and insight</p>
+        </header>
 
-        <div class="input-block">
-            <label for="starting-balance">Starting Balance (P):</label>
-            <div class="input-container">
-                <input type="text" id="starting-balance" name="starting-balance">
-            </div>
-        </div>
+        <main id="calculator-app">
+            <!-- Input Form Section -->
+            <section class="input-section" aria-label="Calculator inputs">
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="starting-balance">
+                            <i class="fas fa-wallet"></i>
+                            Initial Investment
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input 
+                                type="number" 
+                                id="starting-balance" 
+                                name="starting-balance"
+                                placeholder="10000"
+                                min="0"
+                                step="0.01"
+                                aria-describedby="starting-balance-help"
+                            >
+                        </div>
+                        <small id="starting-balance-help" class="help-text">Your initial deposit or investment amount</small>
+                    </div>
 
-        <div class="input-block">
-            <label for="contribution">Contribution (PMT):</label>
-            <div class="input-container">
-                <input type="text" id="contribution" name="contribution">
-            </div>
-        </div>
+                    <div class="input-group">
+                        <label for="contribution">
+                            <i class="fas fa-plus-circle"></i>
+                            Regular Contribution
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input 
+                                type="number" 
+                                id="contribution" 
+                                name="contribution"
+                                placeholder="500"
+                                min="0"
+                                step="0.01"
+                                aria-describedby="contribution-help"
+                            >
+                        </div>
+                        <small id="contribution-help" class="help-text">Amount added regularly (monthly, annually, etc.)</small>
+                    </div>
 
-        <div class="input-block">
-            <label for="years">Years (t):</label>
-            <input type="text" id="years" name="years">
-        </div>
+                    <div class="input-group">
+                        <label for="contribution-frequency">
+                            <i class="fas fa-calendar-alt"></i>
+                            Contribution Frequency
+                        </label>
+                        <select id="contribution-frequency" name="contribution-frequency" aria-describedby="contribution-frequency-help">
+                            <option value="12">Monthly</option>
+                            <option value="4">Quarterly</option>
+                            <option value="2">Semi-annually</option>
+                            <option value="1">Annually</option>
+                        </select>
+                        <small id="contribution-frequency-help" class="help-text">How often you make contributions</small>
+                    </div>
 
-        <div class="input-block">
-            <label for="interest-rate">% Interest Rate (r):</label>
-            <input type="text" id="interest-rate" name="interest-rate">
-        </div>
+                    <div class="input-group">
+                        <label for="years">
+                            <i class="fas fa-clock"></i>
+                            Investment Period
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="years" 
+                                name="years"
+                                placeholder="20"
+                                min="1"
+                                max="100"
+                                step="1"
+                                aria-describedby="years-help"
+                            >
+                            <span class="unit">years</span>
+                        </div>
+                        <small id="years-help" class="help-text">How long you plan to invest</small>
+                    </div>
 
-        <div class="input-block">
-            <label for="compound">Compound Frequency (n)</label>
-            <select id="compound" name="compound">
-                <option value="1">Annually</option>
-                <option value="12" selected="selected">Monthly</option>
-                <option value="365">Daily</option>
-            </select>
-        </div>
+                    <div class="input-group">
+                        <label for="interest-rate">
+                            <i class="fas fa-percentage"></i>
+                            Annual Interest Rate
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="interest-rate" 
+                                name="interest-rate"
+                                placeholder="7"
+                                min="0"
+                                max="100"
+                                step="0.01"
+                                aria-describedby="interest-rate-help"
+                            >
+                            <span class="unit">%</span>
+                        </div>
+                        <small id="interest-rate-help" class="help-text">Expected annual return on your investment</small>
+                    </div>
 
-        <button class="button" id="calculate-button">
-            Calculate
-            <div class="hoverEffect"></div>
-        </button>
-        <div id="result">0</div>
-        <div>
-            <canvas id="myChart"></canvas>
-        </div>
+                    <div class="input-group">
+                        <label for="compound-frequency">
+                            <i class="fas fa-sync-alt"></i>
+                            Compounding Frequency
+                        </label>
+                        <select id="compound-frequency" name="compound-frequency" aria-describedby="compound-frequency-help">
+                            <option value="1">Annually</option>
+                            <option value="2">Semi-annually</option>
+                            <option value="4">Quarterly</option>
+                            <option value="12" selected>Monthly</option>
+                            <option value="52">Weekly</option>
+                            <option value="365">Daily</option>
+                        </select>
+                        <small id="compound-frequency-help" class="help-text">How often interest compounds</small>
+                    </div>
 
+                    <div class="input-group">
+                        <label for="inflation-rate">
+                            <i class="fas fa-trending-up"></i>
+                            Annual Inflation Rate
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="inflation-rate" 
+                                name="inflation-rate"
+                                placeholder="3"
+                                min="0"
+                                max="20"
+                                step="0.01"
+                                value="3"
+                                aria-describedby="inflation-rate-help"
+                            >
+                            <span class="unit">%</span>
+                        </div>
+                        <small id="inflation-rate-help" class="help-text">Expected annual inflation rate</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="target-amount">
+                            <i class="fas fa-bullseye"></i>
+                            Target Amount (Optional)
+                        </label>
+                        <div class="input-wrapper">
+                            <span class="currency-symbol">$</span>
+                            <input 
+                                type="number" 
+                                id="target-amount" 
+                                name="target-amount"
+                                placeholder="500000"
+                                min="0"
+                                step="0.01"
+                                aria-describedby="target-amount-help"
+                            >
+                        </div>
+                        <small id="target-amount-help" class="help-text">Your financial goal (will show time to reach)</small>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="currency">
+                            <i class="fas fa-money-bill-wave"></i>
+                            Currency
+                        </label>
+                        <select id="currency" name="currency" aria-describedby="currency-help">
+                            <option value="USD" selected>USD - US Dollar ($)</option>
+                            <option value="EUR">EUR - Euro (€)</option>
+                            <option value="GBP">GBP - British Pound (£)</option>
+                            <option value="JPY">JPY - Japanese Yen (¥)</option>
+                            <option value="CAD">CAD - Canadian Dollar (C$)</option>
+                            <option value="AUD">AUD - Australian Dollar (A$)</option>
+                            <option value="CHF">CHF - Swiss Franc (Fr)</option>
+                            <option value="CNY">CNY - Chinese Yuan (¥)</option>
+                            <option value="INR">INR - Indian Rupee (₹)</option>
+                            <option value="KRW">KRW - South Korean Won (₩)</option>
+                            <option value="BRL">BRL - Brazilian Real (R$)</option>
+                            <option value="RUB">RUB - Russian Ruble (₽)</option>
+                            <option value="ZAR">ZAR - South African Rand (R)</option>
+                            <option value="MXN">MXN - Mexican Peso ($)</option>
+                            <option value="SGD">SGD - Singapore Dollar (S$)</option>
+                            <option value="HKD">HKD - Hong Kong Dollar (HK$)</option>
+                            <option value="NOK">NOK - Norwegian Krone (kr)</option>
+                            <option value="SEK">SEK - Swedish Krona (kr)</option>
+                            <option value="DKK">DKK - Danish Krone (kr)</option>
+                            <option value="PLN">PLN - Polish Złoty (zł)</option>
+                        </select>
+                        <small id="currency-help" class="help-text">Select your preferred currency for calculations</small>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="button" id="calculate-button" class="btn-primary">
+                        <i class="fas fa-calculator"></i>
+                        Calculate
+                    </button>
+                    <button type="button" id="reset-button" class="btn-secondary">
+                        <i class="fas fa-undo"></i>
+                        Reset
+                    </button>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" aria-label="Calculation results">
+                <div id="results-container" class="hidden">
+                    <div class="results-header">
+                        <h2><i class="fas fa-chart-pie"></i> Your Investment Summary</h2>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-card highlight">
+                            <div class="result-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="result-content">
+                                <h3>Final Amount</h3>
+                                <p id="final-amount" class="result-value">$0</p>
+                                <small class="result-subtitle">Total value after <span id="investment-years">0</span> years</small>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-icon">
+                                <i class="fas fa-hand-holding-usd"></i>
+                            </div>
+                            <div class="result-content">
+                                <h3>Total Contributions</h3>
+                                <p id="total-contributions" class="result-value">$0</p>
+                                <small class="result-subtitle">Your total investment</small>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="result-content">
+                                <h3>Interest Earned</h3>
+                                <p id="interest-earned" class="result-value">$0</p>
+                                <small class="result-subtitle">Growth from compound interest</small>
+                            </div>
+                        </div>
+
+                        <div class="result-card">
+                            <div class="result-icon">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="result-content">
+                                <h3>Purchasing Power</h3>
+                                <p id="real-value" class="result-value">$0</p>
+                                <small class="result-subtitle">Value adjusted for inflation</small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="target-results" class="target-section hidden">
+                        <div class="target-card">
+                            <h3><i class="fas fa-flag-checkered"></i> Goal Achievement</h3>
+                            <p id="target-timeline" class="target-result"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Visualization Section -->
+            <section class="chart-section" aria-label="Investment visualization">
+                <div id="chart-container" class="hidden">
+                    <div class="chart-header">
+                        <h2><i class="fas fa-chart-area"></i> Investment Growth</h2>
+                        <div class="chart-controls">
+                            <button type="button" id="chart-line" class="chart-btn active" data-chart="line">
+                                <i class="fas fa-chart-line"></i> Growth
+                            </button>
+                            <button type="button" id="chart-bar" class="chart-btn" data-chart="bar">
+                                <i class="fas fa-chart-bar"></i> Breakdown
+                            </button>
+                            <button type="button" id="chart-doughnut" class="chart-btn" data-chart="doughnut">
+                                <i class="fas fa-chart-pie"></i> Composition
+                            </button>
+                        </div>
+                    </div>
+                    <div class="chart-wrapper">
+                        <canvas id="investmentChart" aria-label="Investment growth visualization"></canvas>
+                    </div>
+                    <div class="chart-legend">
+                        <div class="legend-item">
+                            <span class="legend-color contributions"></span>
+                            <span>Total Contributions</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color interest"></span>
+                            <span>Interest Earned</span>
+                        </div>
+                        <div class="legend-item">
+                            <span class="legend-color inflation"></span>
+                            <span>Inflation Adjusted</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Export Section -->
+            <section class="export-section" aria-label="Export options">
+                <div id="export-container" class="hidden">
+                    <div class="export-buttons">
+                        <button type="button" id="export-pdf" class="btn-export">
+                            <i class="fas fa-file-pdf"></i>
+                            Export PDF
+                        </button>
+                        <button type="button" id="export-csv" class="btn-export">
+                            <i class="fas fa-file-csv"></i>
+                            Export CSV
+                        </button>
+                        <button type="button" id="share-link" class="btn-export">
+                            <i class="fas fa-share-alt"></i>
+                            Share Link
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Formula: A = P(1 + r/n)<sup>nt</sup> + PMT((1 + r/n)<sup>nt</sup> - 1)/(r/n)</p>
+            <small>Where: A = Final Amount, P = Principal, r = Annual Interest Rate, n = Compounding Frequency, t = Time in Years, PMT = Regular Payment</small>
+        </footer>
     </div>
-    <script src="interest_calculator.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="interest_calculator.js"></script>
 </body>
 
 </html>
